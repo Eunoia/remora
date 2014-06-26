@@ -2,8 +2,8 @@ require 'spec_helper'
 
 describe Remora do
 	before do
-		email = "YOUREMAILHERE"||ENV['email']
-		password = "YOURPASSWORDHERE"||ENV['password']
+		email = ENV['email']||"YOUREMAILHERE"
+		password = ENV['password']||"YOURPASSWORDHERE"
 		@shark = Remora::Remora.new(email, password)
 	end
 	it 'shows my name' do
