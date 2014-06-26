@@ -7,10 +7,10 @@ Gem::Specification.new do |spec|
   spec.name          = "remora"
   spec.version       = Remora::VERSION
   spec.authors       = ["Evan R"]
-  spec.email         = ["eunoia.github@gmail.com"]
-  spec.description   = %q{TODO: Write a gem description}
-  spec.summary       = %q{TODO: Write a gem summary}
-  spec.homepage      = ""
+  spec.email         = ["eunoia.github+remora@gmail.com"]
+  spec.description   = %q{ Get stats on San Franscisco real estate }
+  spec.summary       = %q{ Lightweight gem to discover information about San Francisco real estate via Property Shark. Can be adapted for anywhere in California. }
+  spec.homepage      = "http://github.com/eunoia/remora"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)
@@ -27,7 +27,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "pry"
   spec.add_development_dependency "pry-remote"
   spec.add_development_dependency "pry-nav"
-  spec.add_development_dependency "httparty"
-  # spec.add_development_dependency "httparty_with_cookies"
+  spec.add_development_dependency "mechanize"
   spec.add_development_dependency "nokogiri"
 end

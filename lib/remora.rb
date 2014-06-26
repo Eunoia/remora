@@ -2,15 +2,12 @@ require "remora/version"
 require 'mechanize'
 require 'nokogiri'
 
-def flush(x,y="")
-	File.open("foo#{y}.html","w").write(x)
-	system("open foo.html")
-end
 module Remora
 	class Remora
 		attr_accessor :cookies
 		def initialize(u,p)
 			@agent = Mechanize.new
+			@agent.user_agent_alias = 'Mac Safari'
 			@username = u
 			@password = p
 			response = ""
@@ -59,8 +56,13 @@ module Remora
 			report_sections = resp.search("script")
 				.select{ |t| t.text[/psrk.ajaxLoader/] }
 				.map{ |t| t.text[/mason[^"]+/] }
+				.inject({}) do |memo, obj|
+					name = obj[/name[^&]+/][/[\w_]+$/];
+					memo[name.to_sym] = obj;
+					memo
+				end
 
-			overview_response = @agent.get("http://www.propertyshark.com/"+report_sections[1])
+			overview_response = @agent.get("http://www.propertyshark.com/"+report_sections[:overview])
 
 			table1 = overview_response.search("table")[1]
 			neighborhood = table1.css(".r_align").text()
