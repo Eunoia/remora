@@ -27,4 +27,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "pry"
   spec.add_development_dependency "pry-remote"
   spec.add_development_dependency "pry-nav"
+  spec.add_development_dependency "httparty"
+  # spec.add_development_dependency "httparty_with_cookies"
+  spec.add_development_dependency "nokogiri"
 end
