@@ -54,9 +54,52 @@ module Remora
 			resp = @agent.post("http://www.propertyshark.com/mason/UI/homepage_search.html",search_form)
 
 			doc = Nokogiri::parse(resp.body)
-			doc.css(".header-address h2").text().strip()[/^.+\n/].strip
+			address = doc.css(".header-address h2").text().strip()[/^.+\n/].strip
 
+			report_sections = resp.search("script")
+				.select{ |t| t.text[/psrk.ajaxLoader/] }
+				.map{ |t| t.text[/mason[^"]+/] }
 
+			overview_response = @agent.get("http://www.propertyshark.com/"+report_sections[1])
+
+			table1 = overview_response.search("table")[1]
+			neighborhood = table1.css(".r_align").text()
+
+			table2 = overview_response.search("table")[2]
+			last_sale = {
+				date:  table2.css(".r_align")[0].text(),
+				price: table2.css(".r_align")[1].text()
+			}
+
+			table3 = overview_response.search("table")[3]
+			owner = {
+				name: table3.css(".r_align")[0].text(),
+				address:table3.css(".r_align")[1].text(),
+				line2: table3.css(".r_align")[2].text()
+			}
+
+			table5 = overview_response.search("table")[5]
+			land = {
+				lot_sq_ft: table5.css(".r_align")[0].text(),
+				prop_class: table5.css(".r_align")[1].text(),
+				depth: table5.css(".r_align")[2].text(),
+				zoning: table5.css(".r_align")[3].text(),
+			}
+
+			table6 = overview_response.search("table")[6]
+			building = {
+				sq_ft: table6.css(".r_align")[0].text(),
+				year_built: table6.css(".r_align")[1].text(),
+			}
+
+			overview = {
+				address: address,
+				neighborhood: neighborhood,
+				last_sale: last_sale,
+				owner: owner,
+				land: land,
+				building: building
+			}
 		end
 	end
 end
