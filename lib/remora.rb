@@ -37,15 +37,11 @@ module Remora
 				.text().strip
 		end
 		def search_in_sf(address)
-			report = {}
-			keys = %i{overview ownership sales_history land building}
-			keys.each { |k| report[k] = nil }
-			report
 			response = @agent.get("http://www.propertyshark.com/mason/ca/San-Francisco-County/Property-Search")
 			search_form = {
 				search_type:"address",
 				search_types_selector:"address",
-				search_token:"155 14th St",
+				search_token: address,
 				location:"San Francisco County, CA"
 			}
 			resp = @agent.post("http://www.propertyshark.com/mason/UI/homepage_search.html",search_form)
@@ -102,6 +98,31 @@ module Remora
 				land: land,
 				building: building
 			}
+		end
+		def search_by_name_in_sf(name)
+			response = @agent.get("http://www.propertyshark.com/mason/ca/San-Francisco-County/Property-Search")
+
+			search_form = {
+				search_type:"owner",
+				search_types_selector:"owner",
+				search_token: name,
+				location:"San Francisco County, CA"
+			}
+			
+			resp = @agent.post("http://www.propertyshark.com/mason/UI/homepage_search.html",search_form)
+
+			doc = Nokogiri::parse(resp.body)
+
+			results = doc.search(".owner_table tr.odd, .owner_table tr.even").reject{ |r| r[:style]=~/display:none/ }
+
+
+
+			results.map do |result|
+				{
+					address: result.css("td.first span.big_font").text().strip(),
+					owner:  result.css(".single_line:first-child").text().strip()
+				}
+			end
 		end
 	end
 end
