@@ -70,5 +70,16 @@ describe Remora do
 			end
 		end
 	end
+	describe '.search_by_name_in_la' do
+		context 'a person has one property' do
+			it 'the Shelley Jo Evans Trustee' do
+				properties = @shark.search_by_name_in_la("Shelley Jo Evans Trustee")
+				expect(properties.length).to eq(1)
+				expect(properties[0][:address]).to eq("9528 Wendon St")
+				expect(properties[0][:owner]).to  eq("Evans Shelley Jo Trustee")
+				expect(properties[0][:city]).to  eq("Temple City")
+			end
+		end
+	end
 end
 
