@@ -2,8 +2,8 @@ require 'spec_helper'
 
 describe Remora do
 	before do
-		email = ENV['email']||"YOUREMAILHERE"
-		password = ENV['password']||"YOURPASSWORDHERE"
+		email = ENV['EMAIL']||"YOUREMAILHERE"
+		password = ENV['PASSWORD']||"YOURPASSWORDHERE"
 		@shark = Remora::Remora.new(email, password)
 	end
 	describe '.my_name_is' do
@@ -57,7 +57,7 @@ describe Remora do
 		context 'just a last name' do
 			it 'the Steins' do
 				properties = @shark.search_by_name_in_sf("Stein")
-				expect(properties.length).to eq(128)
+				expect(properties.length).to be > (128)
 
 				expect(properties[0][:address]).to eq("954 De Haro St")
 				expect(properties[0][:owner]).to  eq("Stein Quinton F Herz")
