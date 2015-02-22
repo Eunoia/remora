@@ -31,10 +31,14 @@ module Remora
 		def reports_left
 			resp = @agent.get("http://www.propertyshark.com/mason/Accounts/My/")
 			doc  = Nokogiri::parse(resp.body)
-			doc
-				.css(".my-subscriptions")[0]
-				.css(".details span")[-3]
-				.text().strip
+			begin 
+				doc
+					.css(".my-subscriptions")[0]
+					.css(".details span")[-3]
+					.text().strip
+			rescue NoMethodError => error
+				"0/200"
+			end
 		end
 		def search_in_sf(address)
 			response = @agent.get("http://www.propertyshark.com/mason/ca/San-Francisco-County/Property-Search")
