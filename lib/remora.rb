@@ -124,6 +124,7 @@ module Remora
 			results.map do |result|
 				{
 					address: result.css("td.first span.big_font").text().strip(),
+					city:   (result.css("td.first b").text().split(",").shift()||"").strip(),
 					owner:  result.css(".single_line:first-child").text().strip()
 				}
 			end
