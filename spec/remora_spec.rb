@@ -18,7 +18,7 @@ describe Remora do
 		end
 	end
 	describe ".search_in_sf" do
-		it 'loads reports for an SF property' do
+		xit 'loads reports for an SF property' do
 			report = @shark.search_in_sf("155 14 St")
 			expect(report).to eq({
 				:address  => "155 14 St, San Francisco, CA 94103",
@@ -55,7 +55,7 @@ describe Remora do
 			end
 		end
 		context 'just a last name' do
-			it 'the Steins' do
+			xit 'the Steins' do
 				properties = @shark.search_by_name_in_sf("Stein")
 				expect(properties.length).to be > (128)
 
@@ -78,6 +78,17 @@ describe Remora do
 				expect(properties[0][:address]).to eq("9528 Wendon St")
 				expect(properties[0][:owner]).to  eq("Evans Shelley Jo Trustee")
 				expect(properties[0][:city]).to  eq("Temple City")
+			end
+		end
+	end
+	describe '.search_by_name_in_alameda' do
+		context 'a person has one property' do
+			it 'the Adeline Kaabachi' do
+				properties = @shark.search_by_name_in_alameda("Adeline Kaabachi")
+				expect(properties.length).to eq(1)
+				expect(properties[0][:address]).to eq("1000 39 Ave")
+				expect(properties[0][:owner]).to  eq("Kaabachi Adeline & Neji B")
+				expect(properties[0][:city]).to  eq("Oakland")
 			end
 		end
 	end

@@ -126,7 +126,17 @@ module Remora
 			}
 			request_search_by_name(search_form)
 		end
+		def search_by_name_in_alameda(name)
+			response = @agent.get("http://www.propertyshark.com/mason/ca/Alameda-County/Property-Search")
 
+			search_form = {
+				search_type:"owner",
+				search_types_selector:"owner",
+				search_token: name,
+				location:"Alameda County, CA"
+			}
+			request_search_by_name(search_form)
+		end
 		private
 		def request_search_by_name(search_form)
 			resp = @agent.post("http://www.propertyshark.com/mason/UI/homepage_search.html",search_form)
