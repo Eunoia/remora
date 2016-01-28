@@ -10,6 +10,7 @@ module Remora
 			@agent.user_agent_alias = 'Mac Safari'
 			@username = u
 			@password = p
+			raise StandardError, ("No username, or password") if (u||p).nil?
 			response = ""
 			@agent.get("https://secure.propertyshark.com/mason/Accounts/logon.html")
 			r1 = @agent.post(
